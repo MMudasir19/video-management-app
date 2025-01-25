@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/config/configStore";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../styles/VideoStats.css";
 import Navbar from "./Navbar";
 import Loading from "./Loading";
@@ -10,6 +10,7 @@ import { fetchVideoHistory } from "../utils/utils";
 const VideoStats: React.FC = () => {
     // Extract the video ID from the URL parameters
     const { id } = useParams();
+    const navigate = useNavigate()
 
     // Get video history and loading state from the global store
     const { videoHistory, loading } = useAppSelector((state) => state.global);
@@ -46,7 +47,9 @@ const VideoStats: React.FC = () => {
         <>
             {/* Render the Navbar component */}
             <Navbar />
-
+            <div className="main" style={{ flexDirection: "column", alignItems: "flex-start" }}>
+                <button onClick={() => navigate("/admin")}>Go Back</button>
+            </div>
             {/* Main container for stats */}
             <div className="stats-container">
                 {/* Check if stats are available */}

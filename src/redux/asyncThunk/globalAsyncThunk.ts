@@ -11,10 +11,11 @@ import {
   where, // To add query conditions to Firestore queries
   writeBatch, // To perform batch write operations in Firestore
 } from "firebase/firestore";
-import { db } from "../../firebase"; // Firebase database instance
+import { auth, db } from "../../firebase"; // Firebase database instance
 import { getMonthName, getWeekNumber } from "../../utils/utils"; // Utility functions for month name and week number
 import { toZonedTime } from "date-fns-tz"; // Correct method to convert UTC to a specific time zone
 import { format } from "date-fns"; // Function to format dates
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const updateLoadCount = createAsyncThunk(
   "global/updateLoadCount",
@@ -416,5 +417,26 @@ export const getVideoUrls = createAsyncThunk<any[]>(
 
     // Return the populated array containing all the video URLs and their associated data
     return urls;
+  }
+);
+
+// Define the asyncThunk
+export const loginUser = createAsyncThunk(
+  "user/loginUser",
+  async (
+    { email, password }: { email: string; password: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const token = await userCredential.user.getIdToken(); // Retrieve the ID token
+      return token; // Return the token instead of accessToken
+    } catch (error: any) {
+      return rejectWithValue(error.message); // Handle error
+    }
   }
 );

@@ -2,11 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; // Hook for navigation between routes
 import PasswordModal from "./PasswordModal"; // Importing the PasswordModal component
 import { useAppDispatch, useAppSelector } from "../redux/config/configStore"; // Redux hooks to dispatch actions and access state
-import { setShowModal } from "../redux/slice/global"; // Action to control modal visibility
+import { setShowModal, setUser } from "../redux/slice/user"; // Action to control modal visibility
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Navbar: React.FC = () => {
     // Accessing the state to check if the modal should be shown
-    const { showModal } = useAppSelector((state) => state.global);
+    const { showModal } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch(); // Dispatch hook to update Redux state
     const navigate = useNavigate(); // Navigation hook for route changes
 
@@ -28,8 +30,10 @@ const Navbar: React.FC = () => {
                 </div>
                 <div className="buttons"> {/* Button container */}
                     <button
-                        onClick={() => {
+                        onClick={async () => {
                             // Navigate to the home page when the Home button is clicked
+                            await signOut(auth);
+                            dispatch(setUser(""))
                             navigate("/");
                         }}
                     >
@@ -39,7 +43,6 @@ const Navbar: React.FC = () => {
                         onClick={() => {
                             // Show the modal and set 'admin' type in localStorage when Admin button is clicked
                             dispatch(setShowModal(true)); // Dispatch to show the modal
-                            localStorage.setItem("type", JSON.stringify("admin")); // Save admin type in localStorage
                         }}
                     >
                         Admin

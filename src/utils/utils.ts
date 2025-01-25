@@ -1,7 +1,6 @@
 import {
   deleteVideo,
   getVideoHistory,
-  getVideoUrls,
   updateLoadCount,
 } from "../redux/asyncThunk/globalAsyncThunk";
 
@@ -77,7 +76,9 @@ const getWeekNumber = (date: Date) => {
 async function filterMatchingData(array: any[]) {
   return array.filter(
     (item) =>
-      Number(item.deleteLoad) > 0 && Number(item.deleteLoad) < item.loadCount // Filter matching items
+      Number(item.deleteLoad) > 0 &&
+      Number(item.deleteLoad) < item.loadCount &&
+      item.status === "added" // Check for status === 'added'
   );
 }
 
@@ -95,12 +96,12 @@ const fetchAndUpdateLoadCount = async (dispatch: any) => {
 // Function to fetch video URLs, filter them, and delete videos based on specific conditions
 const fetchAndDeleteVideos = async (dispatch: any) => {
   try {
-    const videoUrls = await dispatch(getVideoUrls()).unwrap(); // Fetch video URLs from the store
-    if (videoUrls.length > 0) {
-      const array = await filterMatchingData(videoUrls); // Filter videos based on conditions
+    const videoHistory = await dispatch(getVideoHistory()).unwrap();
+    if (videoHistory.length > 0) {
+      const array = await filterMatchingData(videoHistory); // Filter videos based on conditions
       if (array.length > 0) {
         array.forEach((item) => {
-          dispatch(deleteVideo(item.id)); // Dispatch delete action for each matching video
+          dispatch(deleteVideo(item.videoId)); // Dispatch delete action for each matching video
         });
       }
     }

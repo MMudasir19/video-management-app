@@ -9,10 +9,7 @@ import {
 
 // Define the shape of the global state in the application
 interface GlobalState {
-  password: string; // Store password for validation
-  error: string; // Store error messages
-  showModal: boolean; // Flag to show/hide modal
-  selectedVideo: any; // Store the selected video object
+  error?: string; // Store error messages
   videoUrls?: any; // Store video URLs
   videoHistory?: any; // Store video history
   loading: boolean; // Flag to indicate loading state
@@ -20,10 +17,7 @@ interface GlobalState {
 }
 
 const initialState: GlobalState = {
-  password: "",
   error: "",
-  showModal: false,
-  selectedVideo: null,
   videoUrls: [], // Initially empty array for video URLs
   loading: false, // Initially not loading
   newUrl: { url: "", deleteLoad: "" }, // Initialize newUrl with empty string
@@ -35,23 +29,14 @@ const globalSlice = createSlice({
   name: "global", // Name of the slice
   initialState, // Initial state of the slice
   reducers: {
-    setPassword: (state, action: PayloadAction<string>) => {
-      state.password = action.payload; // Set the password in the state
-    },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload; // Set error message in the state
     },
     setNewUrl: (state, action: PayloadAction<any>) => {
       state.newUrl = action.payload; // Update newUrl in the state
     },
-    setShowModal: (state, action: PayloadAction<boolean>) => {
-      state.showModal = action.payload; // Toggle showModal flag in the state
-    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload; // Toggle loading state
-    },
-    setSelectedVideo: (state, action: PayloadAction<any>) => {
-      state.selectedVideo = action.payload; // Set selected video in the state
     },
     setVideoUrls: (state, action: PayloadAction<any>) => {
       state.videoUrls = action.payload; // Update videoUrls in the state
@@ -61,22 +46,9 @@ const globalSlice = createSlice({
     },
     clearState: (state) => {
       // Clear the state (reset all properties to their initial values)
-      state.password = "";
       state.error = "";
-      state.showModal = false;
-      state.selectedVideo = null;
       state.loading = false;
       state.newUrl = { url: "", deleteLoad: "" };
-    },
-    validatePassword: (state, action: PayloadAction<string>) => {
-      // Validate password against the environment variable
-      if (action.payload === import.meta.env.VITE_PASSWORD) {
-        state.error = "";
-        state.showModal = false;
-        state.password = "";
-      } else {
-        state.error = "Invalid password"; // Set error if password is incorrect
-      }
     },
   },
   extraReducers: (builder) => {
@@ -130,17 +102,8 @@ const globalSlice = createSlice({
 });
 
 // Exporting the actions for use in components or elsewhere in the app
-export const {
-  setPassword,
-  setError,
-  setShowModal,
-  setSelectedVideo,
-  validatePassword,
-  clearState,
-  setVideoUrls,
-  setNewUrl,
-  setLoading,
-} = globalSlice.actions;
+export const { setError, clearState, setVideoUrls, setNewUrl, setLoading } =
+  globalSlice.actions;
 
 // Exporting the reducer to be used in the Redux store
 export default globalSlice.reducer;

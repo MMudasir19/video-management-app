@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import "../App.css";
-import PasswordModal from "./PasswordModal";
 import { useAppDispatch, useAppSelector } from "../redux/config/configStore";
-import { setLoading, setNewUrl, setSelectedVideo, setShowModal } from "../redux/slice/global";
+import { setLoading, setNewUrl } from "../redux/slice/global";
 import { extractVideoId, fetchAndDeleteVideos, fetchAndUpdateLoadCount, fetchVideoHistory, transformTimestamps } from "../utils/utils";
 import Loading from "./Loading";
-import { addVideo } from "../redux/asyncThunk/globalAsyncThunk";
+import { addVideo, deleteVideo, getVideoHistory, getVideoUrls } from "../redux/asyncThunk/globalAsyncThunk";
 import { useNavigate } from "react-router-dom";
 
 const VideosAdmin: React.FC = () => {
@@ -14,7 +13,7 @@ const VideosAdmin: React.FC = () => {
     const [selectedTab, setSelectedTab] = useState<'videos' | 'history'>('videos');
     const [selectedTab1, setSelectedTab1] = useState<'added' | 'deleted'>('added');
 
-    const { showModal, videoUrls, newUrl, videoHistory, loading } = useAppSelector((state) => state.global);
+    const { videoUrls, newUrl, videoHistory, loading } = useAppSelector((state) => state.global);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -26,6 +25,7 @@ const VideosAdmin: React.FC = () => {
             const loadCountResult = await fetchAndUpdateLoadCount(dispatch);
             if (loadCountResult.success) {
                 await fetchAndDeleteVideos(dispatch);
+                await dispatch(getVideoUrls())
                 await fetchVideoHistory(dispatch);
             }
 
@@ -47,6 +47,15 @@ const VideosAdmin: React.FC = () => {
     const addVideoAsync = async () => {
         if (newUrl.url !== "") {
             dispatch(addVideo(newUrl))
+        } else {
+            return;
+        }
+    };
+    const deleteVideoAsync = async (id: any) => {
+        if (id !== "") {
+            await dispatch(deleteVideo(id)); // Dispatch the action to delete the selected video
+            await dispatch(getVideoUrls()); // Fetch the latest video URLs
+            await dispatch(getVideoHistory()); // Fetch the video history
         } else {
             return;
         }
@@ -109,11 +118,9 @@ const VideosAdmin: React.FC = () => {
                                         {/* Delete icon to prompt modal for video deletion */}
                                         <span
                                             className="delete-icon"
-                                            onClick={() => {
-                                                dispatch(setShowModal(true));
-                                                dispatch(setSelectedVideo(url.id))
-                                                localStorage.setItem("type", JSON.stringify("delete"));
-                                            }}
+                                            onClick={() =>
+                                                deleteVideoAsync(url.id)
+                                            }
                                         >
                                             &times;
                                         </span>
@@ -172,8 +179,6 @@ const VideosAdmin: React.FC = () => {
                 }
             </div>
 
-            {/* Modal to show for deleting videos */}
-            {showModal && <PasswordModal />}
         </>
     );
 };

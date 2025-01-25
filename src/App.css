@@ -156,6 +156,9 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+.main button:hover {
+  background-color: #0056b3;
+}
 
 /* Modal overlay */
 .modal-overlay {
@@ -269,6 +272,10 @@ button {
   background-color: #007bff;
   color: white;
 }
+.tabs button:hover {
+  background-color: #0056b3;
+  color: white;
+}
 
 /* Table wrapper to enable horizontal scrolling */
 .table-wrapper {
@@ -294,6 +301,11 @@ button {
 
 .video-table th {
   background-color: #f4f4f4;
+}
+
+.video-table td button:hover {
+  background-color: #0056b3;
+  color: white;
 }
 
 /* Loading spinner */

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../redux/config/configStore";
 import { setLoading } from "../redux/slice/global";
 import { extractVideoId, fetchAndDeleteVideos, fetchAndUpdateLoadCount, fetchVideoHistory } from "../utils/utils";
 import Loading from "./Loading";
+import { getVideoUrls } from "../redux/asyncThunk/globalAsyncThunk";
 
 const Autoplay: React.FC = () => {
     // Get the video URLs and loading state from Redux store
@@ -24,11 +25,9 @@ const Autoplay: React.FC = () => {
             // If load count update is successful, proceed with other fetch operations
             if (loadCountResult.success) {
                 await fetchAndDeleteVideos(dispatch); // Fetch and delete videos
+                await dispatch(getVideoUrls())
                 await fetchVideoHistory(dispatch); // Fetch video history
             }
-
-            // Set 'auth' flag to false in localStorage after operations
-            localStorage.setItem("auth", "false");
 
             // Set loading state to false after data fetch is complete
             dispatch(setLoading(false));
