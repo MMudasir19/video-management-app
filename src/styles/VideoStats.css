@@ -1,0 +1,167 @@
+/* General styling for the stats container */
+.stats-container {
+  margin: 20px; /* Adds margin around the container */
+  padding: 20px; /* Adds padding inside the container */
+  background-color: #f4f4f9; /* Light background color for the container */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  overflow-x: auto; /* Allows horizontal scrolling if content overflows */
+  color: #000; /* Text color */
+  display: flex; /* Uses flexbox for layout */
+  flex-direction: column; /* Arranges children vertically */
+  gap: 20px; /* Space between child elements */
+  margin-top: 4.5rem; /* Space from top (if used in a larger layout) */
+}
+
+/* Year section styling */
+.year {
+  border: 2px solid #e2e2e2; /* Light border around the year section */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px; /* Padding inside the year section */
+  background-color: #ffffff; /* White background */
+  display: flex; /* Uses flexbox for layout */
+  flex-direction: column; /* Arranges children vertically */
+  gap: 20px; /* Space between child elements */
+}
+
+/* Year header styling */
+.year-header {
+  display: flex; /* Uses flexbox for layout */
+  justify-content: space-between; /* Space between title and total loads */
+  align-items: center; /* Vertically centers the content */
+  background-color: #e7f1ff; /* Light blue background */
+  padding: 10px; /* Padding inside the header */
+  border-radius: 6px; /* Rounded corners */
+  flex-direction: column; /* Arranges children vertically (on smaller screens) */
+}
+
+/* Title of the year section */
+.year-title {
+  font-size: 1.5rem; /* Larger text size */
+  color: #0077cc; /* Blue color for the title */
+}
+
+/* Total loads text styling */
+.total-loads {
+  font-size: 1rem; /* Standard font size */
+  color: #666; /* Light gray text color */
+}
+
+/* Months container styling */
+.months-container {
+  display: flex; /* Uses flexbox */
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  gap: 20px; /* Space between months */
+}
+
+/* Individual month styling */
+.month {
+  flex: 1 1 calc(50% - 20px); /* Flexbox-based layout for responsive design */
+  padding: 15px; /* Padding inside each month section */
+  background-color: #fff; /* White background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+/* Month title styling */
+.month-title {
+  font-size: 1.2rem; /* Slightly larger font size */
+  color: #4a90e2; /* Blue color for month titles */
+}
+
+/* Month total text styling */
+.month-total {
+  font-size: 1rem; /* Standard font size */
+  color: #333; /* Dark text color */
+  margin-top: 5px; /* Space above the total */
+}
+
+/* Week section container styling */
+.weeks-container {
+  margin-top: 15px; /* Space above the weeks section */
+  display: flex; /* Uses flexbox */
+  flex-direction: column; /* Arranges weeks vertically */
+  gap: 15px; /* Space between weeks */
+}
+
+/* Individual week styling */
+.week {
+  padding: 10px; /* Padding inside each week section */
+  border-left: 4px solid #0077cc; /* Left border with blue color */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* Week title styling */
+.week-title {
+  font-size: 1rem; /* Standard font size */
+  font-weight: 600; /* Semi-bold weight */
+  color: #333; /* Dark text color */
+}
+
+/* Day section container styling */
+.days-container {
+  margin-top: 10px; /* Space above the days section */
+  display: flex; /* Uses flexbox */
+  flex-direction: column; /* Arranges days vertically */
+  gap: 10px; /* Space between days */
+}
+
+/* Individual day styling */
+.day {
+  padding: 10px; /* Padding inside each day section */
+  background-color: #ffffff; /* White background */
+  border: 1px solid #e2e2e2; /* Light border around the day */
+  border-radius: 6px; /* Rounded corners */
+}
+
+/* Day title styling */
+.day-title {
+  font-size: 0.9rem; /* Smaller font size */
+  font-weight: bold; /* Bold font weight */
+  color: #555; /* Dark gray text color */
+  margin-bottom: 8px; /* Space below the title */
+}
+
+/* Hour section list styling */
+.hours-list {
+  margin-top: 5px; /* Space above the hour list */
+  padding-left: 20px; /* Left padding for list */
+  list-style: disc; /* Display list items as discs (bullets) */
+  color: #888; /* Gray text color */
+  font-size: 0.9rem; /* Slightly smaller font size */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Adjustments for smaller screens (e.g., tablets and mobile devices) */
+  .stats-container {
+    margin: 10px; /* Reduced margin for smaller screens */
+    padding: 15px; /* Reduced padding for smaller screens */
+  }
+
+  .year-header {
+    flex-direction: column; /* Stacks the year header elements vertically */
+    align-items: flex-start; /* Aligns the content to the left */
+  }
+
+  .months-container {
+    flex-wrap: wrap; /* Allows wrapping of months */
+    gap: 10px; /* Reduced space between months */
+  }
+
+  .month {
+    flex: 1 1 100%; /* Makes each month section full width */
+  }
+
+  .year-title,
+  .month-title {
+    font-size: 1rem; /* Smaller font size for titles */
+  }
+
+  .week-title,
+  .day-title,
+  .hours-list {
+    font-size: 0.8rem; /* Smaller font size for week/day titles and hour list */
+  }
+}
