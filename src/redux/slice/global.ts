@@ -1,11 +1,11 @@
 // globalSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"; // Importing necessary utilities from Redux Toolkit
 import {
-  addVideo,
   deleteVideo,
   getVideoHistory,
   getVideoUrls,
 } from "../asyncThunk/globalAsyncThunk"; // Importing asyncThunk actions
+import { addVideo } from "../asyncThunk/addVideoAsyncThunk";
 
 // Define the shape of the global state in the application
 interface GlobalState {

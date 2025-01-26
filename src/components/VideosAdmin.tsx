@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector } from "../redux/config/configStore";
 import { setLoading, setNewUrl } from "../redux/slice/global";
 import { extractVideoId, fetchAndDeleteVideos, fetchAndUpdateLoadCount, fetchVideoHistory, transformTimestamps } from "../utils/utils";
 import Loading from "./Loading";
-import { addVideo, deleteVideo, getVideoHistory, getVideoUrls } from "../redux/asyncThunk/globalAsyncThunk";
+import { deleteVideo, getVideoHistory, getVideoUrls } from "../redux/asyncThunk/globalAsyncThunk";
 import { useNavigate } from "react-router-dom";
+import { addVideo } from "../redux/asyncThunk/addVideoAsyncThunk";
 
 const VideosAdmin: React.FC = () => {
     // State to manage the selected tab: 'videos' or 'history'

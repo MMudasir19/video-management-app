@@ -1,8 +1,8 @@
 import {
   deleteVideo,
   getVideoHistory,
-  updateLoadCount,
 } from "../redux/asyncThunk/globalAsyncThunk";
+import { updateLoadCount } from "../redux/asyncThunk/updateLoadCountAsyncThunk";
 
 // Function to extract video ID from a YouTube URL
 const extractVideoId = (url: string) => {
@@ -119,6 +119,67 @@ const fetchVideoHistory = async (dispatch: any) => {
   }
 };
 
+const getLiveTime = (
+  inputDate: Date = new Date()
+): {
+  year: number;
+  month: number;
+  week: number;
+  day: number;
+  hour: number;
+  minute: number;
+} => {
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: "Asia/Jerusalem",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  const now = inputDate; // Use the provided date or current date if no argument is provided
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const dateParts = formatter.formatToParts(now);
+
+  const time: {
+    year: number;
+    month: number;
+    week: number;
+    day: number;
+    hour: number;
+    minute: number;
+  } = {
+    year: 0,
+    month: 0,
+    week: 0,
+    day: 0,
+    hour: 0,
+    minute: 0,
+  };
+
+  dateParts.forEach(({ type, value }) => {
+    if (type === "year") time.year = parseInt(value, 10);
+    if (type === "month") time.month = parseInt(value, 10);
+    if (type === "day") time.day = parseInt(value, 10);
+    if (type === "hour") time.hour = parseInt(value, 10);
+    if (type === "minute") time.minute = parseInt(value, 10);
+  });
+
+  // Manually calculate the ISO week number
+  const firstDayOfYear = new Date(now.getFullYear(), 0, 1);
+  const pastDaysOfYear =
+    (now.getTime() -
+      firstDayOfYear.getTime() +
+      (firstDayOfYear.getTimezoneOffset() - now.getTimezoneOffset()) *
+        60 *
+        1000) /
+    86400000;
+  time.week = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+
+  return time;
+};
+
 // Export utility functions for use in other components
 export {
   extractVideoId, // Extract YouTube video ID from URL
@@ -129,4 +190,5 @@ export {
   fetchAndUpdateLoadCount, // Fetch and update load count in the redux store
   getMonthName, // Get month name from month index
   getWeekNumber, // Get week number from a Date object
+  getLiveTime,
 };
