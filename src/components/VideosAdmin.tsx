@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import "../App.css";
 import { useAppDispatch, useAppSelector } from "../redux/config/configStore";
 import { setLoading, setNewUrl } from "../redux/slice/global";
-import { extractVideoId, fetchAndDeleteVideos, fetchAndUpdateLoadCount, fetchVideoHistory, transformTimestamps } from "../utils/utils";
+import { extractVideoId, fetchAndDeleteVideos, fetchVideoHistory, transformTimestamps } from "../utils/utils";
 import Loading from "./Loading";
 import { deleteVideo, getVideoHistory, getVideoUrls } from "../redux/asyncThunk/globalAsyncThunk";
 import { useNavigate } from "react-router-dom";
@@ -22,14 +22,9 @@ const VideosAdmin: React.FC = () => {
     useEffect(() => {
         const updateData = async () => {
             dispatch(setLoading(true));
-
-            const loadCountResult = await fetchAndUpdateLoadCount(dispatch);
-            if (loadCountResult.success) {
-                await fetchAndDeleteVideos(dispatch);
-                await dispatch(getVideoUrls())
-                await fetchVideoHistory(dispatch);
-            }
-
+            await fetchAndDeleteVideos(dispatch);
+            await dispatch(getVideoUrls())
+            await fetchVideoHistory(dispatch);
             dispatch(setLoading(false));
         };
 
